@@ -24,14 +24,12 @@ public func println<T>(object: Dictionary<String,T>) -> Bool {
 }
 
 public protocol LogProcessingModuleType {
-    
     var logKey: String { get }
     
     func processLog<T>(content: T) -> Bool /* Bool -> Processed */
 }
 
 public struct LogDispatcher {
-    
     public private(set) static var logProcessingModules = [LogProcessingModuleType]()
     
     public static func registerLogProcessingModule(logProcessingModule: LogProcessingModuleType) {
