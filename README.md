@@ -7,11 +7,11 @@ __With LogDispatcher, you can create `LogProcessingModule`s.__
 
 When you call `println(_:)` to print/log something, LogDispatcher will walk through a list of registered log processing modules, choose the proper one, and use it to do some additional processing for the log.
 
-For instance, you can have a log processing module that automaically adds a :warning: sign before the warning log, and a log processing module that automaically report the error, etc.
+For instance, you can have a log processing module that automaically adds a :warning: sign before the warning log, a log processing module that automaically report the error, etc.
 
 __LogDispather is totally transparent.__
 
-Even if your code is included in a target that do not have LogDispatcher, it will compile and all the `println(_:)` will become normal `println(_:)`. You do not need to change a single line of code.
+If your code is included in a target that do not have LogDispatcher, it will compile and all the `println(_:)` will become normal `println(_:)`. You do not need to change a single line of code.
 
 ##Usage and Examples
 
@@ -37,9 +37,9 @@ public protocol LogProcessingModuleType {
 }
 ```
 
-####Auto error reporting
+####Example 1: Auto error reporting
 
-A error reporting log processing module can look like this
+An error reporting log processing module can look like this
 
 ```swift
 public class ErrorLogProcessingModule: LogProcessingModuleType {
@@ -60,3 +60,19 @@ public class ErrorLogProcessingModule: LogProcessingModuleType {
 }
 
 ```
+
+Then, register the log processing module
+
+```swift
+let errorProcessingModule = ErrorLogProcessingModule()
+
+LogDispatcher.registerLogProcessingModule(errorProcessingModule)
+```
+
+After that, if you call `println(["Error": "Cannot find the saved configuration file, the default configuration will be used"])`, the error will be printed as below and will be reported to your server as well. 
+
+```
+!!ERROR!!
+Cannot find the saved configuration file, the default configuration will be used
+```
+
