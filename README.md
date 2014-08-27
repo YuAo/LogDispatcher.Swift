@@ -21,12 +21,6 @@ The overloaded `println(_:)` takes a dictionary parameter.
 public func println<T>(object: Dictionary<String,T>) -> Bool
 ```
 
-When you print a dictionary, LogDispatch will take over.
-
-```swift
-println(["Error": "Cannot find the saved configuration file, the default configuration will be used"])
-```
-
 You can create `LogProcessingModule`s by confirming to the `LogProcessingModuleType` protocol
 
 ```swift
@@ -35,6 +29,14 @@ public protocol LogProcessingModuleType {
     
     func processLog<T>(content: T) -> Bool /* Bool -> Processed */
 }
+```
+
+When you print a dictionary, LogDispatch will take over.
+
+```swift
+//Example
+
+println(["Error": "Cannot find the saved configuration file, the default configuration will be used"])
 ```
 
 ####Example 1: Auto error reporting
