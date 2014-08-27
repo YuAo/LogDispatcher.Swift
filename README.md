@@ -3,11 +3,17 @@ LogDispatcher.Swift
 
 LogDispatcher is a simple demonstration of how we can use [method overloading](http://en.wikipedia.org/wiki/Method_overloading) to override a swift library function `println(_:)` , giving it an opportunity to be more powerful and useful.
 
-With LogDispatcher, you can create some `LogProcessingModule`s, when you call `println(_:)` to print/log something, LogDispatcher will walk through a list of registered log processing modules, choose the proper one, and use it to do some additional processing for the log.
+__With LogDispatcher, you can create `LogProcessingModule`s.__
 
-For instance, you can have a log processing module that automaically adds a :warning: sign before the warning log, and a log processing module that automaically report the error.
+When you call `println(_:)` to print/log something, LogDispatcher will walk through a list of registered log processing modules, choose the proper one, and use it to do some additional processing for the log.
 
-##Examples
+For instance, you can have a log processing module that automaically adds a :warning: sign before the warning log, and a log processing module that automaically report the error, etc.
+
+__LogDispather is totally transparent.__
+
+Even if your code is included in a target that do not have LogDispatcher, it will compile and all the `println(_:)` will become normal `println(_:)`. You do not need to change a single line of code.
+
+##Usage and Examples
 
 The overloaded `println(_:)` takes a dictionary parameter.
 
@@ -21,7 +27,7 @@ When you print a dictionary, LogDispatch will take over.
 println(["Error": "Cannot find the saved configuration file, the default configuration will be used"])
 ```
 
-Then you can create some `LogProcessingModule`s
+You can create `LogProcessingModule`s by confirming to the `LogProcessingModuleType` protocol
 
 ```swift
 public protocol LogProcessingModuleType {
@@ -30,6 +36,8 @@ public protocol LogProcessingModuleType {
     func processLog<T>(content: T) -> Bool /* Bool -> Processed */
 }
 ```
+
+####Auto error reporting
 
 A error reporting log processing module can look like this
 
@@ -41,10 +49,9 @@ public class ErrorLogProcessingModule: LogProcessingModuleType {
     }
     public func processLog<T>(content: T) -> Bool {
         if let content = content as? String {
-            println("!! \(content)")
+            println("!!ERROR!!\n\(content)")
             //Send error info to your server
             //NSURLConnection.sendAsynchronousRequest(request, queue: nil, completionHandler: nil)
-            println("⬆︎ error has been reported to the developer")
             return true
         } else {
             return false
