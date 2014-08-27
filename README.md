@@ -35,7 +35,6 @@ When you print a dictionary, LogDispatch will take over.
 
 ```swift
 //Example
-
 println(["Error": "Cannot find the saved configuration file, the default configuration will be used"])
 ```
 
