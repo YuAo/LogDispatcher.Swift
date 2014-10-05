@@ -11,7 +11,7 @@ For instance, you can have a log processing module that automaically adds a :war
 
 __LogDispather is totally transparent.__
 
-If your code is included in a target that do not have LogDispatcher, it will compile and all the `println(_:)` will become normal `println(_:)`. You do not have to change a single line of code.
+If your code is included in a target that does not have LogDispatcher, it will compile and all the `println(_:)` will become normal `println(_:)`. You do not have to change a single line of code.
 
 ##Usage and Examples
 
