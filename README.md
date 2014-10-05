@@ -95,3 +95,7 @@ if !processed {
     let result: Void = println(object)
 }
 ```
+
+##Contributing
+
+If you have any questions, bug reports, improvements, please file an issue.
