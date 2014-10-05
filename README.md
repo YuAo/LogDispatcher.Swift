@@ -1,7 +1,7 @@
 LogDispatcher.Swift
 ===================
 
-LogDispatcher is a simple demonstration of how we can use [method overloading](http://en.wikipedia.org/wiki/Method_overloading) to override a swift library function `println(_:)` , giving it an opportunity to be more powerful and useful.
+LogDispatcher is a simple __demonstration__ of how we can use [method overloading](http://en.wikipedia.org/wiki/Method_overloading) to override a swift library function `println(_:)` , giving it an opportunity to be more powerful and useful.
 
 __With LogDispatcher, you can create `LogProcessingModule`s.__
 
@@ -38,7 +38,9 @@ When you print a dictionary, LogDispatch will take over.
 println(["Error": "Cannot find the saved configuration file, the default configuration will be used"])
 ```
 
-####Example 1: Auto error reporting
+It will go through every `(key, value)` in the dictionary, see if there's a `LogProcessingModule` which can handle and process the `value` by matching the `key` with the `LogProcessingModule`'s `logKey` property. Once it finds a `LogProcessingModule`, it will call the `LogProcessingModule`'s `func processLog<T>(content: T) -> Bool`, passing the `value` to the method.
+
+####Example: Auto error reporting
 
 An error reporting log processing module can look like this
 
@@ -72,8 +74,22 @@ LogDispatcher.registerLogProcessingModule(errorProcessingModule)
 
 After that, if you call `println(["Error": "Cannot find the saved configuration file, the default configuration will be used"])`, the error will be printed as below and will be reported to your server as well. 
 
-```
-!!ERROR!!
-Cannot find the saved configuration file, the default configuration will be used
-```
+##Implementation
 
+LogDispatcher is simple. Everything is in the [LogDispatcher.swift](LogDispatcher.swift), less than 40 lines of code.
+
+####But there's one tricky part:
+
+LogDispatcher wants to call the original `println(_:)` method when it cannot find a `LogProcessingModule` for a log.
+
+There's is already a overloaded version of `println(_:)` which handles the `Dictionary<String,T>` input, how can we call the original `println(_:)` with the `Dictionary<String,T>` object in the overloaded version?
+
+The solution is to use a different return type for the overloaded version.
+
+You may have noticed that the overloaded version of `println(_:)` returns a `Bool` to indicate whether a log has been processed. Thus, if we explicitly mark the return type as `Void`, we can reach the original version of the function.
+
+```
+if !processed {
+    let result: Void = println(object)
+}
+```
