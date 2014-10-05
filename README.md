@@ -82,7 +82,7 @@ __But there's one tricky part:__
 
 LogDispatcher wants to call the __original__ `println(_:)` when it cannot find a `LogProcessingModule` for a log.
 
-There's is already a overloaded version of `println(_:)` which handles the `Dictionary<String,T>` input, how can we call the __original__ `println(_:)` with the `Dictionary<String,T>` object?
+There's already a overloaded version of `println(_:)` which handles the `Dictionary<String,T>` input, how can we call the __original__ `println(_:)` with the `Dictionary<String,T>` parameter?
 
 The solution is to use a different return type for the overloaded version.
 
