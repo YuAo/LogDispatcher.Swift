@@ -78,7 +78,7 @@ After that, if you call `println(["Error": "Cannot find the saved configuration 
 
 LogDispatcher is simple. Everything is in the [LogDispatcher.swift](LogDispatcher.swift), less than 40 lines of code.
 
-####But there's one tricky part:
+__But there's one tricky part:__
 
 LogDispatcher wants to call the original `println(_:)` method when it cannot find a `LogProcessingModule` for a log.
 
@@ -87,6 +87,8 @@ There's is already a overloaded version of `println(_:)` which handles the `Dict
 The solution is to use a different return type for the overloaded version.
 
 You may have noticed that the overloaded version of `println(_:)` returns a `Bool` to indicate whether a log has been processed. Thus, if we explicitly mark the return type as `Void`, we can reach the original version of the function.
+
+Here comes the unused `result`
 
 ```
 if !processed {
