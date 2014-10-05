@@ -80,7 +80,7 @@ LogDispatcher is simple. Everything is in the [LogDispatcher.swift](LogDispatche
 
 __But there's one tricky part:__
 
-LogDispatcher wants to call the __original__ `println(_:)` method when it cannot find a `LogProcessingModule` for a log.
+LogDispatcher wants to call the __original__ `println(_:)` when it cannot find a `LogProcessingModule` for a log.
 
 There's is already a overloaded version of `println(_:)` which handles the `Dictionary<String,T>` input, how can we call the __original__ `println(_:)` with the `Dictionary<String,T>` object?
 
