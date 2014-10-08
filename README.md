@@ -13,6 +13,10 @@ __LogDispather is totally transparent.__
 
 If your code is included in a target that does not have LogDispatcher, it will compile and all the `println(_:)` will become normal `println(_:)`. You do not have to change a single line of code.
 
+===
+
+*Checkout the `NSLog()`/(Objective-C) version > [JKLoggerDispatcher](https://github.com/fsjack/JKLoggerDispatcher)*
+
 ##Usage and Examples
 
 The overloaded `println(_:)` takes a dictionary parameter.
